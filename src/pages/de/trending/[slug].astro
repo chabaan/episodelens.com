@@ -21,6 +21,7 @@ const a = item.de;
     <div class="container" style="max-width:720px">
       <span class={`flag-badge ${item.flag}`}>{item.flag === "us" ? "US" : "UK"}</span>
       <span class="meta" style="margin-inline-start:8px">{item.year} · ★ {item.rating}</span>
+      <img src={`/images/${item.slug}.svg`} alt={a.title} style="width:100%;border-radius:12px;margin:16px 0;" />
       <h1 style="font-size:32px; margin:16px 0 24px;">{a.title}</h1>
       <p style="font-size:17px; color:var(--text-dim); margin-bottom:28px;">{a.summary}</p>
       <p style="font-size:16px; line-height:1.8;">{a.body}</p>
