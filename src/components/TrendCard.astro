@@ -1,0 +1,75 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  flag: "us" | "uk";
+  year: string;
+  rating: string;
+}
+const { href, title, summary, flag, year, rating } = Astro.props;
+---
+<article class="trend-card">
+  <a href={href} class="poster-link">
+    <div class="poster">
+      <span class="poster-title">{title}</span>
+      <span class="rating">★ {rating}</span>
+    </div>
+  </a>
+  <div class="body">
+    <span class={`flag-badge ${flag}`}>{flag === "us" ? "US" : "UK"}</span>
+    <span class="meta">{year}</span>
+    <h3><a href={href}>{title}</a></h3>
+    <p>{summary}</p>
+    <a class="read-more" href={href}>Read the article →</a>
+  </div>
+</article>
+
+<style>
+  .trend-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .trend-card .poster {
+    aspect-ratio: 16/9;
+    background: linear-gradient(160deg, #1c212c, #0e1116);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 16px;
+    text-align: center;
+  }
+  .trend-card .poster-title {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .trend-card .rating {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: var(--bg);
+    border: 1px solid var(--accent-us);
+    color: var(--accent-us);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: var(--radius);
+  }
+  .trend-card .body { padding: 16px; }
+  .trend-card .meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-inline-start: 8px;
+  }
+  .trend-card h3 { font-size: 16px; margin: 10px 0 8px; }
+  .trend-card h3 a { color: var(--text); }
+  .trend-card p { color: var(--text-dim); font-size: 13px; margin: 0 0 12px; }
+  .trend-card .read-more { font-size: 12px; color: var(--accent-uk); }
+</style>

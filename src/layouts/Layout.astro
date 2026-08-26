@@ -1,0 +1,45 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  lang: "en" | "fr" | "de";
+  path?: string; // path after the lang prefix, used to build hreflang alternates
+}
+const {
+  title,
+  description = "Mashhad — in-depth reviews, rankings and news on American and British TV series.",
+  lang,
+  path = "",
+} = Astro.props;
+
+const site = "https://example.com"; // استبدل هذا بدومينك الحقيقي عند النشر
+---
+<!doctype html>
+<html lang={lang} dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+
+    <!-- SEO: hreflang alternates so search engines know these pages are translations of each other -->
+    <link rel="alternate" hreflang="en" href={`${site}/en/${path}`} />
+    <link rel="alternate" hreflang="fr" href={`${site}/fr/${path}`} />
+    <link rel="alternate" hreflang="de" href={`${site}/de/${path}`} />
+    <link rel="alternate" hreflang="x-default" href={`${site}/en/${path}`} />
+    <link rel="canonical" href={`${site}/${lang}/${path}`} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

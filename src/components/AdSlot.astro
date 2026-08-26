@@ -1,0 +1,13 @@
+---
+interface Props {
+  label?: string;
+}
+const { label = "Advertisement" } = Astro.props;
+---
+<div class="ad-break" role="complementary" aria-label="Advertisement slot">
+  <div class="lamp-row">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  {label}
+  <!-- ضع هنا كود إعلانات AdSense أو أي شبكة إعلانية أخرى -->
+</div>

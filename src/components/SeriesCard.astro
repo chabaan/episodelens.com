@@ -1,0 +1,26 @@
+---
+interface Props {
+  title: string;
+  year: string;
+  rating: string;
+  flag: "us" | "uk";
+  watchLabel?: string;
+  watchUrl?: string;
+}
+const { title, year, rating, flag, watchLabel = "أين تشاهده", watchUrl = "#" } = Astro.props;
+---
+<article class="series-card">
+  <div class="poster">
+    <span>{title}</span>
+    <span class="rating">★ {rating}</span>
+  </div>
+  <div class="body">
+    <span class={`flag-badge ${flag}`}>{flag === "us" ? "US" : "UK"}</span>
+    <h3>{title}</h3>
+    <div class="meta">{year}</div>
+    <!-- رابط تسويق بالعمولة: يوجّه لصفحة منصة البث -->
+    <a class="watch-link" href={watchUrl} rel="sponsored noopener" target="_blank">
+      {watchLabel} ←
+    </a>
+  </div>
+</article>

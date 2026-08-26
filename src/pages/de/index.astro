@@ -1,0 +1,66 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import TrendCard from "../../components/TrendCard.astro";
+import AdSlot from "../../components/AdSlot.astro";
+import { trending } from "../../data/trending.js";
+---
+<Layout title="Mashhad — US- & UK-Serien: Kritiken, Ranglisten & News" lang="de">
+  <Header lang="de" />
+
+  <section class="hero">
+    <div class="container">
+      <h1>Das Beste aus <span class="accent">Hollywood</span> und <span style="color:var(--accent-uk)">Großbritannien</span></h1>
+      <p class="tagline">Ausführliche Kritiken, Ranglisten und News zu amerikanischen und britischen TV-Serien — an einem Ort.</p>
+      <div class="hero-marquee-line"></div>
+    </div>
+  </section>
+
+  <div class="filmstrip-divider"></div>
+
+  <section class="section" id="trending">
+    <div class="container">
+      <div class="section-head">
+        <div><div class="eyebrow">Diese Woche</div><h2>Gerade angesagt</h2></div>
+      </div>
+      <div class="review-grid" style="grid-template-columns:repeat(3,1fr)">
+        {trending.slice(0, 6).map((t) => (
+          <TrendCard
+            href={`/de/trending/${t.slug}`}
+            title={t.de.title}
+            summary={t.de.summary}
+            flag={t.flag}
+            year={t.year}
+            rating={t.rating}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><AdSlot label="Werbung" /></div>
+
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="section-head">
+        <div><div class="eyebrow">Mehr Trends</div><h2>Ebenfalls sehenswert</h2></div>
+      </div>
+      <div class="review-grid" style="grid-template-columns:repeat(2,1fr)">
+        {trending.slice(6, 10).map((t) => (
+          <TrendCard
+            href={`/de/trending/${t.slug}`}
+            title={t.de.title}
+            summary={t.de.summary}
+            flag={t.flag}
+            year={t.year}
+            rating={t.rating}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">© 2026 Mashhad — unabhängige Berichterstattung über amerikanische und britische TV-Serien</div>
+  </footer>
+</Layout>

@@ -1,0 +1,342 @@
+/* ==========================================================================
+   مشهد — نظام التصميم (Design Tokens)
+   فكرة الهوية: ماركيز سينما قديمة (Hollywood) تلتقي بضباب لندني (British)
+   ========================================================================== */
+
+:root {
+  /* الألوان الأساسية */
+  --bg: #0b0d12;
+  --bg-elevated: #12151c;
+  --bg-card: #161a22;
+  --line: #262b36;
+  --text: #ede6d6;
+  --text-dim: #9aa0ac;
+
+  /* لونان تعبيريان: ذهبي هوليوودي للمحتوى الأمريكي، أزرق ضبابي للمحتوى البريطاني */
+  --accent-us: #d4a24c;
+  --accent-us-dim: #d4a24c33;
+  --accent-uk: #4a7a8c;
+  --accent-uk-dim: #4a7a8c33;
+
+  /* خطوط */
+  
+  --font-body: "Inter", sans-serif;
+  --font-marquee: "Bebas Neue", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius: 4px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  margin: 0;
+  direction: ltr;
+  line-height: 1.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---------- عنصر التوقيع: فاصل شريط الفيلم (Film-strip divider) ---------- */
+.filmstrip-divider {
+  height: 22px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--bg) 0px, var(--bg) 10px,
+      transparent 10px, transparent 20px
+    );
+  position: relative;
+  margin: 0;
+}
+.filmstrip-divider::before,
+.filmstrip-divider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 10px 11px, var(--bg-elevated) 5px, transparent 5.5px);
+  background-size: 20px 22px;
+}
+.filmstrip-divider { background-color: var(--line); }
+
+/* ---------- الهيدر ---------- */
+.site-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-elevated);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.site-header .container {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.main-nav { justify-self: center; }
+.logo {
+  font-family: var(--font-marquee);
+  font-size: 30px;
+  letter-spacing: 2px;
+  color: var(--text);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.logo .bulb {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent-us);
+  display: inline-block;
+  box-shadow: 0 0 8px 2px var(--accent-us-dim);
+  animation: flicker 2.4s infinite ease-in-out;
+}
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .45; }
+}
+nav.main-nav { display: flex; gap: 28px; }
+nav.main-nav a {
+  font-size: 15px;
+  color: var(--text-dim);
+  border-bottom: 2px solid transparent;
+  padding-bottom: 4px;
+  transition: color .2s, border-color .2s;
+}
+nav.main-nav a:hover,
+nav.main-nav a:focus-visible {
+  color: var(--text);
+  border-color: var(--accent-us);
+}
+
+/* ---------- الهيرو / الماركيز ---------- */
+.hero {
+  padding: 72px 0 48px;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 50% -10%, #1b1f29 0%, var(--bg) 60%);
+  border-bottom: 1px solid var(--line);
+}
+.hero h1 {
+  font-family: var(--font-marquee);
+  font-size: clamp(40px, 7vw, 76px);
+  letter-spacing: 3px;
+  margin: 0 0 12px;
+  color: var(--text);
+}
+.hero h1 .accent { color: var(--accent-us); }
+.hero p.tagline {
+  color: var(--text-dim);
+  font-size: 18px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+.hero-marquee-line {
+  margin: 28px auto 0;
+  height: 3px;
+  width: 220px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent-us) 0 10px,
+    var(--accent-uk) 10px 20px
+  );
+  border-radius: 3px;
+}
+
+/* ---------- عناوين الأقسام ---------- */
+.section { padding: 56px 0; }
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.section-head h2 {
+  font-size: 24px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-head .eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+.section-head a.see-all {
+  font-size: 14px;
+  color: var(--accent-us);
+}
+
+/* ---------- شارات US / UK ---------- */
+.flag-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border-radius: var(--radius);
+  border: 1px solid currentColor;
+}
+.flag-badge.us { color: var(--accent-us); background: var(--accent-us-dim); }
+.flag-badge.uk { color: var(--accent-uk); background: var(--accent-uk-dim); }
+
+/* ---------- شريط أفقي قابل للتمرير ---------- */
+.hscroll {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+}
+.hscroll::-webkit-scrollbar { height: 6px; }
+.hscroll::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+/* ---------- بطاقة مسلسل ---------- */
+.series-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  flex: 0 0 220px;
+  transition: transform .25s ease, border-color .25s ease;
+}
+.series-card:hover { transform: translateY(-4px); border-color: var(--accent-us); }
+.series-card .poster {
+  aspect-ratio: 2/3;
+  background: linear-gradient(160deg, #1c212c, #0e1116);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  position: relative;
+}
+.series-card .rating {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--bg);
+  border: 1px solid var(--accent-us);
+  color: var(--accent-us);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: var(--radius);
+}
+.series-card .body { padding: 12px 14px 16px; }
+.series-card h3 { font-size: 15px; margin: 4px 0 6px; }
+.series-card .meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.series-card .watch-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--accent-uk);
+  border-bottom: 1px dashed var(--accent-uk);
+}
+
+/* ---------- بطاقة مراجعة ---------- */
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.review-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.review-card .flag-badge { margin-bottom: 10px; }
+.review-card h3 { margin: 0 0 8px; font-size: 17px; }
+.review-card p { color: var(--text-dim); font-size: 14px; margin: 0 0 12px; }
+.review-card .score {
+  font-family: var(--font-mono);
+  color: var(--accent-us);
+  font-size: 13px;
+}
+
+/* ---------- قائمة الأخبار ---------- */
+.news-list { display: flex; flex-direction: column; }
+.news-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.news-item time {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  min-width: 70px;
+}
+.news-item h4 { margin: 0 0 4px; font-size: 15px; }
+.news-item p { margin: 0; color: var(--text-dim); font-size: 13px; }
+
+/* ---------- استراحة إعلانية (Ad slot) ---------- */
+.ad-break {
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  padding: 28px;
+  text-align: center;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.ad-break .lamp-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.ad-break .lamp-row span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-us);
+  opacity: .5;
+}
+.ad-break .lamp-row span:nth-child(2n) { background: var(--accent-uk); }
+
+/* ---------- الفوتر ---------- */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 32px 0;
+  color: var(--text-dim);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ---------- استجابة الجوال ---------- */
+@media (max-width: 720px) {
+  nav.main-nav { display: none; }
+  .review-grid { grid-template-columns: 1fr; }
+}

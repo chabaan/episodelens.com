@@ -1,0 +1,44 @@
+---
+interface Props {
+  lang: "en" | "fr" | "de";
+  path?: string; // path after the lang prefix, e.g. "trending/ted-lasso-season-4"
+}
+const { lang, path = "" } = Astro.props;
+const langs = [
+  { code: "en", label: "EN" },
+  { code: "fr", label: "FR" },
+  { code: "de", label: "DE" },
+];
+---
+<div class="lang-switch" role="group" aria-label="Language">
+  {langs.map((l) => (
+    <a
+      href={`/${l.code}/${path}`}
+      class={l.code === lang ? "active" : ""}
+      aria-current={l.code === lang ? "true" : undefined}
+    >
+      {l.label}
+    </a>
+  ))}
+</div>
+
+<style>
+  .lang-switch {
+    display: flex;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .lang-switch a {
+    padding: 3px 8px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--text-dim);
+  }
+  .lang-switch a.active {
+    color: var(--bg);
+    background: var(--accent-us);
+    border-color: var(--accent-us);
+  }
+  .lang-switch a:hover { color: var(--text); }
+</style>

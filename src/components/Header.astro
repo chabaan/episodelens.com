@@ -1,0 +1,29 @@
+---
+import LangSwitcher from "./LangSwitcher.astro";
+
+interface Props {
+  lang: "en" | "fr" | "de";
+  path?: string;
+}
+const { lang, path = "" } = Astro.props;
+
+const nav = {
+  en: { reviews: "Reviews", news: "News", trending: "Trending" },
+  fr: { reviews: "Critiques", news: "Actus", trending: "Tendances" },
+  de: { reviews: "Kritiken", news: "News", trending: "Trending" },
+}[lang];
+---
+<header class="site-header">
+  <div class="container">
+    <a href={`/${lang}/`} class="logo" aria-label="Mashhad — Home">
+      <span class="bulb"></span>
+      Mashhad
+    </a>
+    <nav class="main-nav">
+      <a href={`/${lang}/#trending`}>{nav.trending}</a>
+      <a href={`/${lang}/#reviews`}>{nav.reviews}</a>
+      <a href={`/${lang}/#news`}>{nav.news}</a>
+    </nav>
+    <LangSwitcher lang={lang} path={path} />
+  </div>
+</header>
