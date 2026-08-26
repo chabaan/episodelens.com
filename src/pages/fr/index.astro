@@ -4,6 +4,7 @@ import Header from "../../components/Header.astro";
 import TrendCard from "../../components/TrendCard.astro";
 import AdSlot from "../../components/AdSlot.astro";
 import { trending } from "../../data/trending.js";
+import { heroImages } from "../../data/images.js";
 ---
 <Layout title="Mashhad — Séries US et UK : critiques, classements & actus" lang="fr">
   <Header lang="fr" />
@@ -32,7 +33,7 @@ import { trending } from "../../data/trending.js";
             flag={t.flag}
             year={t.year}
             rating={t.rating}
-            image={`/images/${t.slug}.svg`}
+            image={heroImages[t.slug]}
           />
         ))}
       </div>
@@ -55,7 +56,7 @@ import { trending } from "../../data/trending.js";
             flag={t.flag}
             year={t.year}
             rating={t.rating}
-            image={`/images/${t.slug}.svg`}
+            image={heroImages[t.slug]}
           />
         ))}
       </div>
