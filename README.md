@@ -1,70 +1,63 @@
-# Mashhad — US & UK TV Series Reviews (EN / FR / DE)
+# EpisodeLens — Astro Starter
 
-A fast, static Astro site covering American and British TV series, with full
-English / French / German versions and 10 original trending articles.
+موقع ثابت (Static) مبني بإطار [Astro](https://astro.build)، مصمَّم كواجهة شبكية بأسلوب
+zergnet.com (بطاقات مصغّرة + عناوين فضولية) لاستقبال المقالات القادمة تلقائيًا من
+Google Apps Script (Astro Celebrity News Engine).
 
-## Run locally
+## التشغيل محليًا
 
 ```bash
 npm install
 npm run dev
 ```
 
-Visit `http://localhost:4321` — it redirects to `/en/`.
-
-## Build for production
+## البناء للنشر
 
 ```bash
 npm run build
 ```
 
-Verified build output: **34 static pages, 336 KB total, zero client-side JS
-on the homepage.** That's what makes it fast — Astro ships plain HTML/CSS by
-default; there is no framework runtime to download or hydrate.
+الناتج يوضع في مجلد `dist/` — جاهز لأي استضافة ثابتة (Netlify, Vercel, Cloudflare Pages).
 
-## Structure
+## كيف تصل المقالات هنا؟
 
+كل مقال هو ملف JSON واحد داخل `src/content/articles/<slug>.json`، بالشكل:
+
+```json
+{
+  "title": "...",
+  "slug": "...",
+  "metaDescription": "...",
+  "focusKeyword": "...",
+  "category": "...",
+  "altText": "...",
+  "image": "https://...",
+  "hashtags": ["#..."],
+  "linkedCelebrity": null,
+  "publishDate": "2026-10-01T12:00:00Z",
+  "html": "<p>...</p>"
+}
 ```
-src/
-  data/trending.js         ← the 10 articles, each with en/fr/de translations
-  layouts/Layout.astro     ← <head>, hreflang tags, canonical URL
-  components/
-    Header.astro           ← nav + language switcher
-    LangSwitcher.astro     ← EN / FR / DE buttons
-    TrendCard.astro        ← article card (placeholder poster, no scraped images)
-    AdSlot.astro           ← ad placeholder (drop in AdSense here)
-  pages/
-    index.astro            ← redirects to /en/
-    en/index.astro, fr/index.astro, de/index.astro
-    en/trending/[slug].astro, fr/trending/[slug].astro, de/trending/[slug].astro
-```
 
-Each language lives in its own folder with its own URLs
-(`/en/trending/ted-lasso-season-4`, `/fr/trending/...`, `/de/trending/...`),
-which is what search engines expect — see the note on SEO below.
+Google Apps Script (ملف `astro_celebrity_news_engine.js` في نفس المشروع) يكتب هذا
+الملف مباشرة داخل مستودع GitHub عبر GitHub Contents API، ثم يستدعي رابط
+"Deploy Hook" (من Netlify أو Vercel) لإعادة بناء ونشر الموقع تلقائيًا — بدون أي
+تدخل يدوي.
 
-## Why no real posters/images
+## خطوات الربط (مرة واحدة)
 
-The images are intentionally stylized placeholder cards, not photos pulled
-from IMDb or any other site. IMDb's posters, stills, and photos are
-copyrighted by studios/distributors, and IMDb's terms prohibit scraping or
-hotlinking its images — so a fast, safe site cannot legally source images
-from it directly. Two legitimate paths forward:
-- **TMDb API** (themoviedb.org) — free API, official poster artwork, requires
-  attribution per their terms.
-- **Official press kits / studio media rooms** — usually licensed for
-  editorial use with credit.
+1. **GitHub**: أنشئ مستودعًا جديدًا (Public أو Private) وارفع محتوى هذا المجلد إليه.
+2. **GitHub Token**: من GitHub → Settings → Developer settings → Personal access
+   tokens → Fine-grained token، بصلاحية `Contents: Read and write` على هذا المستودع فقط.
+3. **الاستضافة** (Netlify مثال موصى به):
+   - أنشئ حساب على netlify.com → "Add new site" → اربطه بمستودع GitHub.
+   - Build command: `npm run build` — Publish directory: `dist`.
+   - اربط الدومين `episodelens.com` من Site settings → Domain management.
+   - من Site settings → Build & deploy → Build hooks → أنشئ Hook جديد، وانسخ رابطه.
+4. في ورقة **Config** بالشيت، املأ:
+   - `GitHub Owner`, `GitHub Repo`, `GitHub Token`, `GitHub Branch` (افتراضيًا `main`)
+   - `Deploy Hook URL` (رابط Netlify من الخطوة السابقة)
+   - `Site Base URL` = `https://episodelens.com`
 
-## Monetization
-
-- `AdSlot.astro` is a placeholder — paste your AdSense (or other network)
-  script inside it.
-- Every `TrendCard` and article page can carry an affiliate "where to watch"
-  link — point it to your Amazon Associates / streaming-affiliate links.
-
-## Next steps
-
-- Move `trending.js` data into Markdown + Astro Content Collections so you
-  can add articles without touching code.
-- Add an XML sitemap (`@astrojs/sitemap`) and submit it per language.
-- Add Open Graph + Twitter card meta tags per article.
+بعدها أي مقال يُولَّد وتختار له "▶ نشر مباشر" من عمود GitHub Publish، يُدفع
+مباشرة للموقع الحي خلال دقيقة أو دقيقتين (وقت بناء Netlify).

@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles');
+  // ملاحظة: مجموعات النوع "data" في Astro تُعرَّف بـ id (اسم الملف)
+  // وليس slug، لذلك نستخدم article.id هنا كمعرّف الرابط.
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article }
+  }));
+}
+
+const { article } = Astro.props;
+const { title, metaDescription, category, image, altText, hashtags, html } = article.data;
+---
+<Layout title={title} description={metaDescription} image={image}>
+  <div class="article-header">
+    {category && <span class="article-category">{category}</span>}
+    <h1 class="article-title">{title}</h1>
+  </div>
+
+  {image && <img class="article-image" src={image} alt={altText || title} />}
+
+  <article class="article-body" set:html={html} />
+
+  {hashtags && hashtags.length > 0 && (
+    <div class="article-hashtags">
+      {hashtags.map((tag: string) => <span>{tag}</span>)}
+    </div>
+  )}
+</Layout>

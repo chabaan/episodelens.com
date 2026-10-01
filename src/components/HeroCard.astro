@@ -1,0 +1,20 @@
+---
+interface Props {
+  title: string;
+  slug: string;
+  image?: string;
+  altText?: string;
+}
+const { title, slug, image, altText } = Astro.props;
+---
+<a class="hero-card" href={`/articles/${slug}/`}>
+  {image
+    ? <img src={image} alt={altText || title} />
+    : <div class="hero-fallback" aria-hidden="true"></div>
+  }
+  <div class="hero-overlay">
+    <span class="hero-badge">★</span>
+    <h2 class="hero-title">{title}</h2>
+    <div><span class="hero-btn">View Story</span></div>
+  </div>
+</a>

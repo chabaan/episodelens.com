@@ -1,3 +1,38 @@
 ---
-return Astro.redirect("/en/", 302);
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import HeroCard from '../components/HeroCard.astro';
+
+const articles = (await getCollection('articles')).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+const [featured, ...rest] = articles;
 ---
+<Layout
+  title="Celebrity News, Secrets & Untold Stories"
+  description="The latest celebrity news, scandals, hidden facts and human stories from Hollywood and beyond."
+>
+  {featured && (
+    <HeroCard
+      title={featured.data.title}
+      slug={featured.id}
+      image={featured.data.image}
+      altText={featured.data.altText}
+    />
+  )}
+
+  <div class="grid">
+    {rest.map((article) => (
+      <ArticleCard
+        title={article.data.title}
+        slug={article.id}
+        image={article.data.image}
+        altText={article.data.altText}
+        category={article.data.category}
+        excerpt={article.data.metaDescription}
+      />
+    ))}
+  </div>
+</Layout>
