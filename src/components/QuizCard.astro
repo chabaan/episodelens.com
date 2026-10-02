@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  slug: string;
+  excerpt?: string;
+}
+const { title, slug, excerpt } = Astro.props;
+---
+<a class="card" href={`/quizzes/${slug}/`}>
+  <div class="card-thumb">
+    <img src="/images/quiz-cover.svg" alt="" loading="lazy" />
+  </div>
+  <div class="card-body">
+    <span class="card-category">Quiz</span>
+    <h3 class="card-title">{title}</h3>
+    {excerpt && <p class="card-excerpt">{excerpt}</p>}
+  </div>
+</a>

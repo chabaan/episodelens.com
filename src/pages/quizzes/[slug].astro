@@ -1,0 +1,137 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const quizzes = await getCollection('quizzes');
+  return quizzes.map((quiz) => ({
+    params: { slug: quiz.id },
+    props: { quiz }
+  }));
+}
+
+const { quiz } = Astro.props;
+const { title, metaDescription, intro, questions, results } = quiz.data;
+const dataPayload = JSON.stringify({ questions, results });
+---
+<Layout title={title} description={metaDescription}>
+  <div class="article-header">
+    <span class="article-category">Quiz</span>
+    <h1 class="article-title">{title}</h1>
+  </div>
+
+  <div class="quiz-wrap" data-quiz={dataPayload}>
+    <div class="quiz-intro" data-quiz-intro>
+      <p>{intro}</p>
+      <button type="button" class="hero-btn" data-quiz-start>Start the Quiz</button>
+    </div>
+
+    <div class="quiz-progress" data-quiz-progress hidden>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" data-quiz-progress-fill></div></div>
+      <span data-quiz-progress-label></span>
+    </div>
+
+    <div class="quiz-question" data-quiz-question hidden>
+      <h2 data-quiz-question-text></h2>
+      <div class="quiz-options" data-quiz-options></div>
+    </div>
+
+    <div class="quiz-result" data-quiz-result hidden>
+      <img data-quiz-result-image alt="" />
+      <h2 data-quiz-result-title></h2>
+      <p data-quiz-result-desc></p>
+      <button type="button" class="hero-btn" data-quiz-retake>Retake Quiz</button>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  function initQuiz(root: HTMLElement) {
+    const raw = root.getAttribute('data-quiz');
+    if (!raw) return;
+    const { questions, results } = JSON.parse(raw) as {
+      questions: { text: string; options: { text: string; type: string }[] }[];
+      results: { type: string; title: string; description: string; image: string }[];
+    };
+
+    const introEl = root.querySelector('[data-quiz-intro]') as HTMLElement;
+    const startBtn = root.querySelector('[data-quiz-start]') as HTMLButtonElement;
+    const progressEl = root.querySelector('[data-quiz-progress]') as HTMLElement;
+    const progressFill = root.querySelector('[data-quiz-progress-fill]') as HTMLElement;
+    const progressLabel = root.querySelector('[data-quiz-progress-label]') as HTMLElement;
+    const questionEl = root.querySelector('[data-quiz-question]') as HTMLElement;
+    const questionText = root.querySelector('[data-quiz-question-text]') as HTMLElement;
+    const optionsEl = root.querySelector('[data-quiz-options]') as HTMLElement;
+    const resultEl = root.querySelector('[data-quiz-result]') as HTMLElement;
+    const resultImage = root.querySelector('[data-quiz-result-image]') as HTMLImageElement;
+    const resultTitle = root.querySelector('[data-quiz-result-title]') as HTMLElement;
+    const resultDesc = root.querySelector('[data-quiz-result-desc]') as HTMLElement;
+    const retakeBtn = root.querySelector('[data-quiz-retake]') as HTMLButtonElement;
+
+    let current = 0;
+    const tally: Record<string, number> = {};
+
+    function showQuestion(i: number) {
+      const q = questions[i];
+      questionText.textContent = q.text;
+      optionsEl.innerHTML = '';
+      q.options.forEach((opt) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'quiz-option';
+        btn.textContent = opt.text;
+        btn.addEventListener('click', () => {
+          tally[opt.type] = (tally[opt.type] || 0) + 1;
+          current += 1;
+          if (current < questions.length) {
+            showQuestion(current);
+          } else {
+            showResult();
+          }
+        });
+        optionsEl.appendChild(btn);
+      });
+      progressFill.style.width = `${Math.round((i / questions.length) * 100)}%`;
+      progressLabel.textContent = `Question ${i + 1} of ${questions.length}`;
+    }
+
+    function showResult() {
+      let bestType = '';
+      let bestScore = -1;
+      for (const [type, score] of Object.entries(tally)) {
+        if (score > bestScore) {
+          bestScore = score;
+          bestType = type;
+        }
+      }
+      const result = results.find((r) => r.type === bestType) || results[0];
+      questionEl.hidden = true;
+      progressEl.hidden = true;
+      resultEl.hidden = false;
+      if (result.image) {
+        resultImage.src = result.image;
+        resultImage.hidden = false;
+      } else {
+        resultImage.hidden = true;
+      }
+      resultTitle.textContent = `You're ${result.title}`;
+      resultDesc.textContent = result.description;
+    }
+
+    startBtn.addEventListener('click', () => {
+      introEl.hidden = true;
+      progressEl.hidden = false;
+      questionEl.hidden = false;
+      current = 0;
+      for (const key of Object.keys(tally)) delete tally[key];
+      showQuestion(0);
+    });
+
+    retakeBtn.addEventListener('click', () => {
+      resultEl.hidden = true;
+      introEl.hidden = false;
+    });
+  }
+
+  document.querySelectorAll('[data-quiz]').forEach((el) => initQuiz(el as HTMLElement));
+</script>

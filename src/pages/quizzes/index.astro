@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import QuizCard from '../../components/QuizCard.astro';
+
+const quizzes = (await getCollection('quizzes')).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+---
+<Layout
+  title="Celebrity Quizzes"
+  description="Fun, fast celebrity personality quizzes — find out which iconic star persona matches you."
+>
+  <div class="article-header">
+    <h1 class="article-title">Quizzes</h1>
+    <p>Quick, fun quizzes about the stars — no signup, just answers.</p>
+  </div>
+  <div class="grid">
+    {quizzes.map((quiz) => (
+      <QuizCard title={quiz.data.title} slug={quiz.id} excerpt={quiz.data.metaDescription} />
+    ))}
+  </div>
+</Layout>

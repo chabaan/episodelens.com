@@ -1,0 +1,98 @@
+{
+  "title": "Which Iconic Celebrity Persona Are You?",
+  "slug": "which-celebrity-persona-are-you",
+  "metaDescription": "Take this quiz to find out which iconic celebrity persona matches your personality — The Reinventor, The Classic, The Rebel, or The Mogul.",
+  "intro": "Every star who stays relevant for decades has a persona that defines them. Answer these 7 questions honestly and we'll tell you which one is really you.",
+  "questions": [
+    {
+      "text": "A camera catches you off guard on a bad day. Your instinct is to:",
+      "options": [
+        { "text": "Strike a pose anyway — bad lighting is just a dare", "type": "rebel" },
+        { "text": "Smile politely and keep walking, composed as ever", "type": "classic" },
+        { "text": "Laugh it off and post it yourself before anyone else can", "type": "reinventor" },
+        { "text": "Ask who's buying the rights to it", "type": "mogul" }
+      ]
+    },
+    {
+      "text": "Your career hits a quiet patch. What's your move?",
+      "options": [
+        { "text": "Disappear for a year and come back completely transformed", "type": "reinventor" },
+        { "text": "Stay the course — consistency is the whole brand", "type": "classic" },
+        { "text": "Start a company nobody saw coming", "type": "mogul" },
+        { "text": "Do something that gets people talking again, rules be damned", "type": "rebel" }
+      ]
+    },
+    {
+      "text": "Pick a red carpet look:",
+      "options": [
+        { "text": "Timeless black tie — never dated, never will be", "type": "classic" },
+        { "text": "Something that breaks the internet by midnight", "type": "rebel" },
+        { "text": "A look that quietly previews next year's biggest trend", "type": "reinventor" },
+        { "text": "Whatever's from your own clothing line", "type": "mogul" }
+      ]
+    },
+    {
+      "text": "A journalist asks about a rumor. You:",
+      "options": [
+        { "text": "Give a sharp, unbothered one-liner that ends the conversation", "type": "rebel" },
+        { "text": "Offer a graceful non-answer and change the subject smoothly", "type": "classic" },
+        { "text": "Turn it into content for your next project", "type": "reinventor" },
+        { "text": "Let your publicist handle it — you're in a meeting", "type": "mogul" }
+      ]
+    },
+    {
+      "text": "What's actually driving your career at this point?",
+      "options": [
+        { "text": "Building something that outlasts the spotlight", "type": "mogul" },
+        { "text": "Staying exactly as reliable as people first fell for", "type": "classic" },
+        { "text": "Proving you can't be put in a box", "type": "reinventor" },
+        { "text": "Doing it your way, even if it costs you the easy wins", "type": "rebel" }
+      ]
+    },
+    {
+      "text": "Your fans describe you in one word. Which fits best?",
+      "options": [
+        { "text": "\"Unpredictable\"", "type": "rebel" },
+        { "text": "\"Dependable\"", "type": "classic" },
+        { "text": "\"Evolving\"", "type": "reinventor" },
+        { "text": "\"Unstoppable\"", "type": "mogul" }
+      ]
+    },
+    {
+      "text": "Pick your dream headline, 20 years from now:",
+      "options": [
+        { "text": "\"Still the gold standard\"", "type": "classic" },
+        { "text": "\"The reinvention nobody saw coming — and it worked\"", "type": "reinventor" },
+        { "text": "\"Built an empire while everyone was watching the wrong thing\"", "type": "mogul" },
+        { "text": "\"Never once played it safe\"", "type": "rebel" }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "type": "reinventor",
+      "title": "The Reinventor",
+      "description": "You're never the same twice, and that's exactly the point. Like the stars who shed one era for a completely unrecognizable next one, you treat change as the whole strategy — not a risk. People stop predicting you and start waiting to see what's next.",
+      "image": "/images/quiz-reinventor.svg"
+    },
+    {
+      "type": "classic",
+      "title": "The Classic",
+      "description": "You're the Old Hollywood throwback — timeless, composed, and never chasing a trend because you don't need to. Your consistency is your power move. Decades from now, you'll still be the reference point everyone else gets compared to.",
+      "image": "/images/quiz-classic.svg"
+    },
+    {
+      "type": "rebel",
+      "title": "The Rebel",
+      "description": "Rules were written for people who need them. You say the thing nobody expects, wear what you want, and let the headlines sort themselves out. It's chaotic, it's magnetic, and it's exactly why people can't look away.",
+      "image": "/images/quiz-rebel.svg"
+    },
+    {
+      "type": "mogul",
+      "title": "The Mogul",
+      "description": "The spotlight was never the end goal for you — it was the launchpad. While everyone else chases the next headline, you're quietly building something that will outlast all of it. Fame is just good marketing for the empire.",
+      "image": "/images/quiz-mogul.svg"
+    }
+  ],
+  "publishDate": "2026-10-02"
+}

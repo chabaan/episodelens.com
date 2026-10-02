@@ -20,4 +20,36 @@ const articles = defineCollection({
   })
 });
 
-export const collections = { articles };
+// Interactive personality-style quizzes. No real celebrity photos are used —
+// results are text + original icon art, same copyright-safe approach as articles.
+const quizzes = defineCollection({
+  type: 'data',
+  schema: z.object({
+    title: z.string(),
+    slug: z.string(),
+    metaDescription: z.string(),
+    intro: z.string(),
+    questions: z.array(
+      z.object({
+        text: z.string(),
+        options: z.array(
+          z.object({
+            text: z.string(),
+            type: z.string() // maps to a result's `type`
+          })
+        )
+      })
+    ),
+    results: z.array(
+      z.object({
+        type: z.string(),
+        title: z.string(),
+        description: z.string(),
+        image: z.string().optional().default('')
+      })
+    ),
+    publishDate: z.coerce.date()
+  })
+});
+
+export const collections = { articles, quizzes };
