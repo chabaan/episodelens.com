@@ -11,6 +11,7 @@ const articles = defineCollection({
     metaDescription: z.string(),
     focusKeyword: z.string().optional().default(''),
     category: z.string().optional().default('Entertainment News'),
+    author: z.string().optional().default('EpisodeLens Staff'),
     altText: z.string().optional().default(''),
     image: z.string().optional().default(''),
     hashtags: z.array(z.string()).optional().default([]),

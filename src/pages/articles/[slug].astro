@@ -13,12 +13,20 @@ export async function getStaticPaths() {
 }
 
 const { article } = Astro.props;
-const { title, metaDescription, category, image, altText, hashtags, html } = article.data;
+const { title, metaDescription, category, author, image, altText, hashtags, html, publishDate } = article.data;
+const formattedDate = publishDate
+  ? new Date(publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  : '';
 ---
 <Layout title={title} description={metaDescription} image={image}>
   <div class="article-header">
     {category && <span class="article-category">{category}</span>}
     <h1 class="article-title">{title}</h1>
+    <p class="article-byline">
+      {author && <span>By {author}</span>}
+      {author && formattedDate && <span> · </span>}
+      {formattedDate && <span>{formattedDate}</span>}
+    </p>
   </div>
 
   {image && <img class="article-image" src={image} alt={altText || title} />}
