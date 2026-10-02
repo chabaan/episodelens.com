@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="1200" height="900">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#171717"/>
+      <stop offset="100%" stop-color="#525252"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <circle cx="660" cy="110" r="150" fill="white" fill-opacity="0.06"/>
+  <circle cx="100" cy="500" r="120" fill="white" fill-opacity="0.06"/>
+  <g transform="translate(300,210) scale(2.1)">
+    <path d="M100 30v18M60 46l13 13M140 46l-13 13" stroke="white" stroke-opacity="0.85" stroke-width="5" stroke-linecap="round"/>
+    <rect x="55" y="64" width="90" height="62" rx="8" fill="none" stroke="white" stroke-opacity="0.9" stroke-width="5"/>
+    <circle cx="100" cy="95" r="20" fill="none" stroke="white" stroke-opacity="0.9" stroke-width="5"/>
+    <circle cx="100" cy="95" r="8" fill="white" fill-opacity="0.9"/>
+    <path d="M70 150l-14 20M130 150l14 20" stroke="white" stroke-opacity="0.85" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <text x="400" y="530" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="700" fill="white" fill-opacity="0.92" letter-spacing="1.5" text-anchor="middle">SCANDALS</text>
+</svg>

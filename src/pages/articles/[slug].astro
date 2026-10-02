@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { resolveArticleImage } from '../../utils/images';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
@@ -14,11 +15,37 @@ export async function getStaticPaths() {
 
 const { article } = Astro.props;
 const { title, metaDescription, category, author, image, altText, hashtags, html, publishDate } = article.data;
+const resolvedImage = resolveArticleImage(image, category);
 const formattedDate = publishDate
   ? new Date(publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
   : '';
+const isoPublishDate = publishDate ? new Date(publishDate).toISOString() : undefined;
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://episodelens.com';
+const absoluteImageUrl = resolvedImage.startsWith('http') ? resolvedImage : siteUrl + resolvedImage;
+const canonicalUrl = siteUrl + Astro.url.pathname;
+
+// بيانات منظّمة NewsArticle — شرط أساسي لأهلية Google News وإشارة قوية لـGoogle Discover
+// (تتطلب: headline, image (مصفوفة), datePublished, dateModified, author, publisher مع شعار)
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: title,
+  description: metaDescription,
+  image: [absoluteImageUrl],
+  datePublished: isoPublishDate,
+  dateModified: isoPublishDate,
+  author: { '@type': 'Person', name: author || 'EpisodeLens Staff' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'EpisodeLens',
+    logo: { '@type': 'ImageObject', url: siteUrl + '/images/logo.png', width: 600, height: 120 }
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl }
+};
 ---
-<Layout title={title} description={metaDescription} image={image}>
+<Layout title={title} description={metaDescription} image={absoluteImageUrl} canonicalUrl={canonicalUrl}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+
   <div class="article-header">
     {category && <span class="article-category">{category}</span>}
     <h1 class="article-title">{title}</h1>
@@ -29,7 +56,7 @@ const formattedDate = publishDate
     </p>
   </div>
 
-  {image && <img class="article-image" src={image} alt={altText || title} />}
+  <img class="article-image" src={resolvedImage} alt={altText || title} width="1200" height="900" />
 
   <article class="article-body" set:html={html} />
 
