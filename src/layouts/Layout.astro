@@ -33,6 +33,16 @@ const resolvedOgImage = image && image.trim() ? image.trim() : siteUrl + '/image
     <meta name="twitter:image" content={resolvedOgImage} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="/global.css" />
+
+    <!-- Google tag (gtag.js) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-JCRN9S6WY0"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-JCRN9S6WY0');
+    </script>
   </head>
   <body>
     <header class="site-header">
